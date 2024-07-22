@@ -1,0 +1,6 @@
+@Startrek.Server_HostAddress = http://localhost:5111
+
+GET {{Startrek.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
