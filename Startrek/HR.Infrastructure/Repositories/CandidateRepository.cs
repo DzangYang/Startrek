@@ -28,9 +28,12 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
         var query = dbContext.Candidates.AsQueryable();
        
         var filteredCandidates = query
-                        .WhereIf(filter.LastName != null, x => string.Equals(x.LastName, filter.LastName, StringComparison.CurrentCultureIgnoreCase))
-                        .WhereIf(filter.FirstName != null, x => string.Equals(x.FirstName, filter.FirstName, StringComparison.CurrentCultureIgnoreCase))
-                        .WhereIf(filter.MiddleName != null, x => string.Equals(x.MiddleName, filter.MiddleName, StringComparison.CurrentCultureIgnoreCase))
+                        .WhereIf(filter.LastName != null, x => string.Equals(x.LastName, 
+                            filter.LastName, StringComparison.CurrentCultureIgnoreCase))
+                        .WhereIf(filter.FirstName != null, x => string.Equals(x.FirstName,
+                            filter.FirstName, StringComparison.CurrentCultureIgnoreCase))
+                        .WhereIf(filter.MiddleName != null, x => string.Equals(x.MiddleName,
+                            filter.MiddleName, StringComparison.CurrentCultureIgnoreCase))
                         .WhereIf(filter.BirthDay != null, x => x.BirthDay == filter.BirthDay)
                         .WhereIf(filter.Gender != null, x => x.BirthDay == filter.BirthDay)
                         .WhereIf(filter.CreatedDate != null, x => x.CreatedDate == filter.CreatedDate)
@@ -64,7 +67,8 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
 
 public static class Filtering
 {
-    public static IQueryable<T> WhereIf<T>(this IQueryable<T> candidates, bool isFiltered, Expression<Func<T, bool>> expression)
+    public static IQueryable<T> WhereIf<T>(this IQueryable<T> candidates, bool isFiltered, 
+        Expression<Func<T, bool>> expression)
     {
         if (isFiltered)
             candidates = candidates.Where(expression);
