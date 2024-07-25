@@ -38,6 +38,6 @@ public class Candidate
     /// Дата создания
     /// </summary>
     public DateTime CreatedDate { get; set; }
-    public IEnumerable<Vacancy> Vacancies { get; set; }
+    public ICollection<Vacancy> Vacancies { get; set; }
 }
 

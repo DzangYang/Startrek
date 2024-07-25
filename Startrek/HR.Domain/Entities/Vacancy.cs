@@ -11,6 +11,6 @@ public class Vacancy
     public Guid PositionId { get; set; }
     public int Experience { get; set; }
     public DateTime CreatedDate { get; set; }
-    public IEnumerable<Candidate>? Candidates { get; set; }
+    public ICollection<Candidate>? Candidates { get; set; }
 
 }

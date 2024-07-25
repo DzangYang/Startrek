@@ -3,8 +3,8 @@
 namespace HR.Domain.Repositories;
 public interface ICandidateRepository
 {
-    void Add(Candidate employee);
-    void Update(Candidate employee);
+    void Create(Candidate candidate);
+    void Update(Candidate candidate);
     void Remove(Guid id);
     IEnumerable<Candidate> GetAll();
     Candidate GetById(Guid id);

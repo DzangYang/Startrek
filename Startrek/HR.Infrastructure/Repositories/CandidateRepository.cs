@@ -11,16 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace HR.Infrastructure.Repositories;
 public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbContext) : ICandidateRepository
 {
-    public void Add(Candidate employee)
+    public void Create(Candidate candidate)
     {
-        dbContext.Candidates.Add(employee);
-        dbContext.SaveChanges();
+        dbContext.Candidates.Add(candidate);
+       
     }
 
     public IEnumerable<Candidate> GetAll()
     {
         return dbContext.Candidates.ToList();
-        dbContext.SaveChanges();
+        
     }
     
     public List<Candidate> GetByFilterCandidate(CandidateFilter filter)
@@ -54,12 +54,29 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
 
     public void Remove(Guid id)
     {
-        throw new NotImplementedException();
+        var existCandidate = dbContext.Candidates.FirstOrDefault(v => v.Id == id);
+
+        dbContext.Remove(existCandidate);
     }
 
-    public void Update(Candidate employee)
+    public void Update(Candidate candidate)
     {
-        throw new NotImplementedException();
+        if (candidate == null)
+            throw new Exception("Кандидат не существует");
+
+        var updateCandidate = new Candidate()
+        {
+            Id = candidate.Id,
+            Experience = candidate.Experience,
+            BirthDay = candidate.BirthDay,
+            LastName = candidate.LastName,
+            FirstName = candidate.FirstName,
+            MiddleName = candidate.MiddleName,
+            Gender = candidate.Gender,
+            CreatedDate = candidate.CreatedDate,
+
+        };
+        
     }
 
 }
