@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HR.Domain.Entities;
 
 namespace HR.Application.Abstractions;
 public interface IInterviewService
 {
     CreateInterviewResponce Create(CreateInterviewRequest request);
+    GetInterviewsResponce GetAll();
+    GetByIdInterviewResponce GetById (Guid id);
     void ConductInterview(ConductTheInterviewRequest request);
     void CancelInterview(CancelInterviewRequest request);
     void RelocateInterview(RelocateInterviewRequest request); 

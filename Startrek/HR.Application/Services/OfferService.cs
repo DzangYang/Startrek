@@ -25,19 +25,45 @@ public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWo
 
     public void Issuance(IssuanceOfferRequest request)
     {
-        offerRepository.Issuance(request.Id, request.DateOfIssue, request.ExpiryDate);
+        var existOffer = offerRepository.GetById(request.Id);
+
+        existOffer.DateOfIssue = request.DateOfIssue;
+        existOffer.ExpiryDate = request.ExpiryDate;
+        
+        offerRepository.Issuance(existOffer);
         unitOfWork.SaveChangeAsync();
+    }
+
+    public GetOffersResponce GetAll()
+    {
+        var offers = offerRepository.GetAll();
+        return new GetOffersResponce(offers);
+    }
+
+    public GetByIdOfferResponce GetById(Guid id)
+    {
+        var offer = offerRepository.GetById(id);
+        return new GetByIdOfferResponce(offer);
     }
 
     public void Revoke(RevokeOfferRequest request)
     {
-        offerRepository.Revoke(request.Id, request.Comment);
+        var existOffer = offerRepository.GetById(request.Id);
+
+        existOffer.IsActive = false;
+        existOffer.Comment = request.Comment;
+        
+        offerRepository.Revoke(existOffer);
         unitOfWork.SaveChangeAsync();
     }
 
     public void Apply(ApplyOfferRequest request)
     {
-        offerRepository.Apply(request.Id);
+        var existOffer = offerRepository.GetById(request.Id);
+
+        existOffer.IsActive = true;
+        
+        offerRepository.Apply(existOffer);
         unitOfWork.SaveChangeAsync();
     }
 }

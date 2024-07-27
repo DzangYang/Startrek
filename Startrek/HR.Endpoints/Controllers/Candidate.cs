@@ -9,7 +9,7 @@ namespace HR.Endpoints.Controllers;
 
 public class Candidate(ICandidateService candidateService) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("Create")]
     public IActionResult Create(CreateCandidateRequest candidateRequest)
     {
         var result = candidateService.Create(candidateRequest);
@@ -23,10 +23,32 @@ public class Candidate(ICandidateService candidateService) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    public IActionResult Get(GetByIdCandidateRequest request)
+    [HttpGet("GetById")]
+    public IActionResult Get([FromQuery] GetByIdCandidateRequest request)
     {
         var result = candidateService.GetById(request.id);
         return Ok(result);
     }
+
+    [HttpGet("GetByFilter")]
+    public IActionResult Get([FromQuery] GetCandidateByFilterRequest request)
+    {
+        var result = candidateService.GetByFilter(request);
+        return Ok(result);
+    }
+
+    [HttpDelete("Remove")]
+    public IActionResult Remove(RemoveCandidateRequest request)
+    {
+        candidateService.Remove(request);
+        return Ok();
+    }
+
+    [HttpPut("Update")]
+    public IActionResult Update(Guid id, UpdateCandidateRequest request)
+    {
+        var result = candidateService.Update(id, request);
+        return Ok(result);
+    }
+
 }

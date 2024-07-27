@@ -21,21 +21,33 @@ public class OfferRepository(DbContextEF contextEf) : IOfferRepository
       /// Отозвать
       /// </summary>
       /// <param name="id"></param>
-      public void Revoke(Guid id, string comment)
+     
+      public void Revoke(Offer offer)
       {
-            var offer = contextEf.Offers.FirstOrDefault(o => o.Id == id);
-            offer.IsActive = false;
-            offer.Comment = comment;
+            contextEf.Offers.Update(offer);
+            
       }
+
+      public IEnumerable<Offer> GetAll()
+      {
+            return contextEf.Offers.ToList();
+      }
+
+      public Offer GetById(Guid id)
+      {
+            var existOffer = contextEf.Offers.FirstOrDefault(o => o.Id == id);
+
+            return existOffer;
+      }
+
       
       /// <summary>
       /// Принять
       /// </summary>
       /// <param name="id"></param>
-      public void Apply(Guid id)
+      public void Apply(Offer offer)
       {
-            var offer = contextEf.Offers.FirstOrDefault(o => o.Id == id);
-            offer.IsActive = true;
+            contextEf.Offers.Update(offer);
       }
 
       /// <summary>
@@ -43,20 +55,10 @@ public class OfferRepository(DbContextEF contextEf) : IOfferRepository
       /// </summary>
       /// <param name="id"></param>
       /// <exception cref="NotImplementedException"></exception>
-      public void Issuance(Guid id, DateTime dateOfIssue, DateTime expiryDate)
+      public void Issuance(Offer offer)
       {
-            var offer = contextEf.Offers.FirstOrDefault(o => o.Id == id);
-            offer.DateOfIssue = dateOfIssue;
-            offer.ExpiryDate = expiryDate;
+            contextEf.Offers.Update(offer);
       }
 
-      /// <summary>
-      /// Обновить 
-      /// </summary>
-      /// <param name="id"></param>
-      /// <exception cref="NotImplementedException"></exception>
-      public void Update(Guid id)
-      {
-            throw new NotImplementedException();
-      }
+   
 }
