@@ -12,11 +12,16 @@ public class VacancyRepository(DbContextEF dbContextEf) : IVacancyRepository
         dbContextEf.Vacancies.Add(vacancy);
     }
 
-    public void Bind(Guid id, Candidate candidate)
+    public IEnumerable<Vacancy> GetAll()
     {
-        var existVacancy = dbContextEf.Vacancies.FirstOrDefault(v => v.Id == id);
+        return dbContextEf.Vacancies.ToList();
+    }
+
+    public void Bind(Vacancy vacancy,  Candidate candidate)
+    {
+        dbContextEf.Candidates.Update(candidate);
         
-        existVacancy.Candidates.Add(candidate);
+        dbContextEf.Vacancies.Update(vacancy);
     }
 
     public void Remove(Guid id)
@@ -38,15 +43,6 @@ public class VacancyRepository(DbContextEF dbContextEf) : IVacancyRepository
 
     public void Update(Vacancy vacancy)
     {
-        if (vacancy == null)
-            throw new Exception("Вакансии не существует");
-        var updateVacancy = new Vacancy()
-        {
-            Id = vacancy.Id,
-            Experience = vacancy.Experience,
-            PositionId = vacancy.PositionId,
-            CreatedDate = vacancy.CreatedDate
-        };
-        
+        dbContextEf.Vacancies.Update(vacancy);
     }
 }

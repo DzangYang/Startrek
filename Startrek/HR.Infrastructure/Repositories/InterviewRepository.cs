@@ -1,6 +1,7 @@
 ﻿using HR.Domain.Entities;
 using HR.Domain.Repositories;
 using HR.Infrastructure.DataAccess;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HR.Infrastructure.Repositories;
 public sealed class InterviewRepository(DbContextEF dbContextEF) : IInterviewRepository
@@ -8,43 +9,34 @@ public sealed class InterviewRepository(DbContextEF dbContextEF) : IInterviewRep
     public void Add(Interview interview)
     {
         dbContextEF.Interviews.Add(interview);
-        dbContextEF.SaveChanges();
-    }
-
-    public void CancelInterview(Guid id, string motive)
-    {
-        var findInterview = dbContextEF.Interviews.FirstOrDefault(interview => interview.Id == id);
-
-        if (findInterview == null)
-            throw new Exception("Интервью не найдено");
-
-        if (findInterview.Conducted != true)
-            findInterview.Comment = motive;
-        dbContextEF.SaveChanges();
-    }
-
-    public void ConductInterviewByCandidateId(Guid id)
-    {
-        var findInterview = dbContextEF.Interviews.FirstOrDefault(interview => interview.Id == id);
-
-        if (findInterview == null)
-             throw new Exception("Интервью не найдено");
-
-        findInterview.Conducted = true;
-        dbContextEF.SaveChanges();
-    }
-
-    public void RelocateInterview(Guid id, DateTime dateOfEvent)
-    {
-        var findInterview = dbContextEF.Interviews.FirstOrDefault(interview => interview.Id == id);
-
-        if (findInterview == null)
-            throw new Exception("Интервью не найдено");
        
-        var isNotTakenDate = dbContextEF.Interviews.Any(interview => interview.DateOfEvent == dateOfEvent);
-        if (isNotTakenDate)
-            throw new Exception("Нет свободной даты записи на интервью");
-        findInterview.DateOfEvent = dateOfEvent;
-        dbContextEF.SaveChanges();
+    }
+
+    public IEnumerable<Interview> GetAll()
+    {
+       return dbContextEF.Interviews.ToList();
+    }
+
+    public void CancelInterview(Interview interview)
+    {
+        dbContextEF.Interviews.Update(interview);
+    }
+
+    public Interview? GetById(Guid id)
+    {
+        var existInterview = dbContextEF.Interviews.FirstOrDefault(i => i.Id == id);
+
+        return existInterview;
+    }
+
+    public void ConductInterviewByCandidateId(Interview interview)
+    {
+        dbContextEF.Interviews.Update(interview);
+       
+    }
+
+    public void RelocateInterview(Interview interview)
+    {
+        dbContextEF.Interviews.Update(interview);
     }
 }

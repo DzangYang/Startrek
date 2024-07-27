@@ -35,17 +35,40 @@ public class VacancyService(IVacancyRepository vacancyRepository,
         var existCandidate = candidateRepository.GetById(request.CandidateId);
         if (existCandidate is null)
             throw new Exception("Кандидат не существует");
+        var existVacancies = vacancyRepository.GetById(request.VacancyId);
         
-        vacancyRepository.Bind(request.VacancyId, existCandidate);
+        existVacancies.Candidates.Add(existCandidate);
+        existCandidate.Vacancies.Add(existVacancies);
+        
+        vacancyRepository.Bind(existVacancies, existCandidate);
         unitOfWork.SaveChangeAsync();
         return new BindVacancyResponce(existCandidate.Id);
     }
 
-    public UpdateVacancyResponce Update(UpdateVacancyRequest request)
+    public GetVacanciesResponce GetAll()
     {
-        var existVacancy = vacancyRepository.GetById(request.Id);
+        var vacancies = vacancyRepository.GetAll();
+        return new GetVacanciesResponce(vacancies);
+    }
+
+    public GetByIdVacancyResponce GetById(Guid id)
+    {
+        var vacancy = vacancyRepository.GetById(id);
+        return new GetByIdVacancyResponce(vacancy);
+    }
+
+    public UpdateVacancyResponce Update(Guid id, UpdateVacancyRequest request)
+    {
+        var existVacancy = vacancyRepository.GetById(id);
+        if (existVacancy == null)
+            throw new Exception("Вакансии не существует");
+
+        existVacancy.PositionId = request.PositionId;
+        existVacancy.Experience = request.Experience;
+      
         vacancyRepository.Update(existVacancy);
         unitOfWork.SaveChangeAsync();
+        
         return new UpdateVacancyResponce(existVacancy.Id);
     }
 }

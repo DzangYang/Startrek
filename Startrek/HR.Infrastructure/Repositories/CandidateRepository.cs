@@ -3,6 +3,7 @@ using HR.Domain.Entities;
 using HR.Domain.Repositories;
 using HR.Infrastructure.DataAccess;
 using System.Linq.Expressions;
+using HR.Domain.Enums;
 using HR.Domain.Interfaces;
 using HR.Infrastructure.Migrations;
 using Microsoft.EntityFrameworkCore;
@@ -45,9 +46,6 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
     public Candidate? GetById(Guid candidateId)
     {
         var findCandidate = dbContext.Candidates.FirstOrDefault(x => x.Id == candidateId);
-
-        if (findCandidate == null)
-            return null;
         
         return findCandidate;
     }
@@ -56,27 +54,13 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
     {
         var existCandidate = dbContext.Candidates.FirstOrDefault(v => v.Id == id);
 
-        dbContext.Remove(existCandidate);
+        dbContext.Candidates.Remove(existCandidate);
     }
 
+    
     public void Update(Candidate candidate)
     {
-        if (candidate == null)
-            throw new Exception("Кандидат не существует");
-
-        var updateCandidate = new Candidate()
-        {
-            Id = candidate.Id,
-            Experience = candidate.Experience,
-            BirthDay = candidate.BirthDay,
-            LastName = candidate.LastName,
-            FirstName = candidate.FirstName,
-            MiddleName = candidate.MiddleName,
-            Gender = candidate.Gender,
-            CreatedDate = candidate.CreatedDate,
-
-        };
-        
+        dbContext.Candidates.Update(candidate);
     }
 
 }

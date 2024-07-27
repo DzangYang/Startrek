@@ -33,11 +33,12 @@ public class Candidate
     /// <summary>
     /// Опыт работы
     /// </summary>
-    public int Experience { get; set; }
+    public int? Experience { get; set; }
     /// <summary>
     /// Дата создания
     /// </summary>
     public DateTime CreatedDate { get; set; }
-    public ICollection<Vacancy> Vacancies { get; set; }
+
+    public ICollection<Vacancy>? Vacancies { get; set; } = new List<Vacancy>();
 }
 

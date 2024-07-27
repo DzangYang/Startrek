@@ -52,14 +52,24 @@ public class CandidateService(ICandidateRepository candidateRepository, IUnitOfW
     public void Remove(RemoveCandidateRequest request)
     {
         candidateRepository.Remove(request.Id);
-        
+        unitOfWork.SaveChangeAsync();
+
     }
 
-    public UpdateCandidateResponce Update(UpdateCandidateRequest request)
+    public UpdateCandidateResponce Update(Guid id, UpdateCandidateRequest request)
     {
-        var candidate = candidateRepository.GetById(request.Id);
+        var candidate = candidateRepository.GetById(id);
+        if (candidate == null)
+            throw new Exception("Кандидат не существует");
         
+            candidate.LastName = request.LastName;
+            candidate.FirstName = request.FirstName;
+            candidate.MiddleName = request.MiddleName;
+            candidate.Experience = request.Experience;
+            candidate.BirthDay = request.BirthDay;
+
         candidateRepository.Update(candidate);
+        
         unitOfWork.SaveChangeAsync();
 
         return new UpdateCandidateResponce(candidate.Id);

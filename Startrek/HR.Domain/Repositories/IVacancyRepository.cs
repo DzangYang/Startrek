@@ -6,8 +6,9 @@ public interface IVacancyRepository
 {
     void Add(Vacancy vacancy);
     void Remove(Guid id);
-    void Bind(Guid id, Candidate candidate);
+    void Bind(Vacancy vacancy,  Candidate candidate);
     Vacancy GetById(Guid id);
     void Update(Vacancy vacancy);
+    IEnumerable<Vacancy> GetAll();
 
 }

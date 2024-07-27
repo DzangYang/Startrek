@@ -1,4 +1,5 @@
 ﻿using HR.Domain.Entities;
+using HR.Domain.Enums;
 
 namespace HR.Domain.Repositories;
 public interface ICandidateRepository
