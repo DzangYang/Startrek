@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HR.Application.Services;
 
-public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWork) : IOfferService
+public class OfferService(IUnitOfWork unitOfWork, IOfferRepository offerRepository) : IOfferService
 {
     public CreateOfferResponce Add(CreateOfferRequest request)
     {
@@ -22,7 +22,6 @@ public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWo
         unitOfWork.SaveChangeAsync();
         return new CreateOfferResponce(offer.Id);
     }
-
     public void Issuance(IssuanceOfferRequest request)
     {
         var existOffer = offerRepository.GetById(request.Id);
@@ -34,27 +33,36 @@ public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWo
         unitOfWork.SaveChangeAsync();
     }
 
+
     public GetOffersResponce GetAll()
     {
         var offers = offerRepository.GetAll();
         return new GetOffersResponce(offers);
     }
 
+    public void Revoke(RevokeOfferRequest request)
+    {
+        var existOffer = offerRepository.GetById(request.Id);
+        offerRepository.Revoke(existOffer);
+        if (true)
+        {
+            Console.WriteLine();
+        }
+
+        if (true)
+        {
+            Console.WriteLine();
+        }
+
+        existOffer.IsActive = false;
+        existOffer.Comment = request.Comment;
+        unitOfWork.SaveChangeAsync();
+    }
+
     public GetByIdOfferResponce GetById(Guid id)
     {
         var offer = offerRepository.GetById(id);
         return new GetByIdOfferResponce(offer);
-    }
-
-    public void Revoke(RevokeOfferRequest request)
-    {
-        var existOffer = offerRepository.GetById(request.Id);
-
-        existOffer.IsActive = false;
-        existOffer.Comment = request.Comment;
-        
-        offerRepository.Revoke(existOffer);
-        unitOfWork.SaveChangeAsync();
     }
 
     public void Apply(ApplyOfferRequest request)
