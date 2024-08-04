@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using HR.Application.Abstractions;
+using HR.Application.DTO.Requests;
 using HR.Application.DTO.Requests.Candidates;
 using HR.Application.DTO.Responces.Candidates;
+using HR.Application.DTO.Responces.Vacancies;
 using HR.Application.FluentValidationServices;
 using HR.Domain;
 using HR.Domain.Entities;
@@ -34,7 +36,7 @@ public class CandidateService(ICandidateRepository candidateRepository, IUnitOfW
         using var transaction = unitOfWork.BeginTransaction();
         try
         {
-            candidateRepository.Add(candidate);
+            candidateRepository.Create(candidate);
             unitOfWork.SaveChangeAsync();
             transaction.Commit();
         }
@@ -45,6 +47,32 @@ public class CandidateService(ICandidateRepository candidateRepository, IUnitOfW
 
         return new CreateCandidateResponce(candidate.Id);
 
+    }
+
+    public void Remove(RemoveCandidateRequest request)
+    {
+        candidateRepository.Remove(request.Id);
+        unitOfWork.SaveChangeAsync();
+
+    }
+
+    public UpdateCandidateResponce Update(Guid id, UpdateCandidateRequest request)
+    {
+        var candidate = candidateRepository.GetById(id);
+        if (candidate == null)
+            throw new Exception("Кандидат не существует");
+        
+            candidate.LastName = request.LastName;
+            candidate.FirstName = request.FirstName;
+            candidate.MiddleName = request.MiddleName;
+            candidate.Experience = request.Experience;
+            candidate.BirthDay = request.BirthDay;
+
+        candidateRepository.Update(candidate);
+        
+        unitOfWork.SaveChangeAsync();
+
+        return new UpdateCandidateResponce(candidate.Id);
     }
 
     public GeByIdCandidateResponce GetById(Guid id)
@@ -60,6 +88,7 @@ public class CandidateService(ICandidateRepository candidateRepository, IUnitOfW
     public GetCandidatesResponce GetAll()
     {
         var candidates = candidateRepository.GetAll();
+ 
         return new GetCandidatesResponce(candidates);
     }
 
@@ -68,6 +97,7 @@ public class CandidateService(ICandidateRepository candidateRepository, IUnitOfW
         var result = candidateRepository.GetByFilterCandidate(
             new CandidateFilter(request.LastName, request.FirstName, request.MiddleName, 
             request.Gender, request.BirthDay, request.CreatedDate, request.Experience));
+        
         return new GetCandidatesByFilterResponce(result);
     }
 

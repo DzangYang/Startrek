@@ -3,6 +3,7 @@ using HR.Domain.Entities;
 using HR.Domain.Repositories;
 using HR.Infrastructure.DataAccess;
 using System.Linq.Expressions;
+using HR.Domain.Enums;
 using HR.Domain.Interfaces;
 using HR.Infrastructure.Migrations;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +12,16 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace HR.Infrastructure.Repositories;
 public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbContext) : ICandidateRepository
 {
-    public void Add(Candidate employee)
+    public void Create(Candidate candidate)
     {
-        dbContext.Candidates.Add(employee);
-        dbContext.SaveChanges();
+        dbContext.Candidates.Add(candidate);
+       
     }
 
     public IEnumerable<Candidate> GetAll()
     {
         return dbContext.Candidates.ToList();
-        dbContext.SaveChanges();
+        
     }
     
     public List<Candidate> GetByFilterCandidate(CandidateFilter filter)
@@ -45,21 +46,21 @@ public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbCo
     public Candidate? GetById(Guid candidateId)
     {
         var findCandidate = dbContext.Candidates.FirstOrDefault(x => x.Id == candidateId);
-
-        if (findCandidate == null)
-            return null;
         
         return findCandidate;
     }
 
     public void Remove(Guid id)
     {
-        throw new NotImplementedException();
+        var existCandidate = dbContext.Candidates.FirstOrDefault(v => v.Id == id);
+
+        dbContext.Candidates.Remove(existCandidate);
     }
 
-    public void Update(Candidate employee)
+    
+    public void Update(Candidate candidate)
     {
-        throw new NotImplementedException();
+        dbContext.Candidates.Update(candidate);
     }
 
 }
