@@ -1,6 +1,6 @@
 using System.Data;
 using HR.Domain.Interfaces;
-using HR.Infrastructure.DataAccess;
+using HR.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -11,7 +11,8 @@ public class UnitOfWork( DbContextEF dbContextEf) : IUnitOfWork
     public IDbTransaction BeginTransaction()
     {
         var transaction = dbContextEf.Database.BeginTransaction();
-
+        
+        
         return transaction.GetDbTransaction();
     }
 

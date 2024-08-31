@@ -22,6 +22,8 @@
     <ProjectReference Include="..\Employees.Endpoints\Employees.Endpoints.csproj" />
     <ProjectReference Include="..\HR.Endpoints\HR.Endpoints.csproj" />
     <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
+    <ProjectReference Include="..\Users.Endpoints\Users.Endpoints.csproj" />
+    <ProjectReference Include="..\Users.Infrastructure\Users.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

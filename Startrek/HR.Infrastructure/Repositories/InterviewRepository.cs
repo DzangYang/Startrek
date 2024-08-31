@@ -1,6 +1,6 @@
 ﻿using HR.Domain.Entities;
 using HR.Domain.Repositories;
-using HR.Infrastructure.DataAccess;
+using HR.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HR.Infrastructure.Repositories;

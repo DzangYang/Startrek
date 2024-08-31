@@ -1,3 +1,3 @@
 namespace Users.Application.DTO.Requests;
 
-public record RegisterUserRequest();
+public sealed  record RegisterUserRequest(string Email, string Password);

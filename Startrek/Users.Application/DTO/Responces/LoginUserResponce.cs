@@ -1,3 +1,3 @@
 namespace Users.Application.DTO.Responces;
 
-public record LoginUserResponce();
+public record LoginUserResponce(string Token);

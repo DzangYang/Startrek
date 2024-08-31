@@ -1,3 +1,3 @@
 namespace Users.Application.DTO.Responces;
 
-public record RegisterUserResponce();
+public record RegisterUserResponce(Guid Id);

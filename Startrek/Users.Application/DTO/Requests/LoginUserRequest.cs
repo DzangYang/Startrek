@@ -1,3 +1,3 @@
 namespace Users.Application.DTO.Requests;
 
-public record LoginUserRequest();
+public record LoginUserRequest(string Email, string Password);

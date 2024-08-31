@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Users.Domain;
+namespace Users.Domain; 
 public class User
 {
-    
     public Guid Id { get; set; }
     public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public string PasswordHash{ get; set; } = string.Empty;
 }

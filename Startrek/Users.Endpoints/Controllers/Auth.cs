@@ -23,7 +23,7 @@ public class Auth(IAuthService authService, IHttpContextAccessor contextAccessor
     {
         var result = authService.Login(request);
        
-        contextAccessor.HttpContext.Response.Cookies.Append("myToken", result.Token);
+        
         return Ok(result);
     }
   

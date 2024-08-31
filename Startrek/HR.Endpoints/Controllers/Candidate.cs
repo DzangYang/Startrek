@@ -1,5 +1,6 @@
 ﻿using HR.Application.Abstractions;
 using HR.Application.DTO.Requests.Candidates;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR.Endpoints.Controllers;
@@ -16,6 +17,7 @@ public class Candidate(ICandidateService candidateService) : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpGet("GetAll")]
     public IActionResult GetAll()
     {
