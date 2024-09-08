@@ -1,8 +1,12 @@
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 using Microsoft.EntityFrameworkCore.Design.Internal;
+using Startrek.Server.Auth;
 using Users.Domain;
+using Users.Domain.Entities;
+using Users.Infrastructure.Auth;
 
 namespace Users.Infrastructure.Database;
 
@@ -10,7 +14,9 @@ public class AppUserDbContext : DbContext
 
 {
    public DbSet<User> Users { get; set;  }
-   
+   public DbSet<Role> Roles { get; set; }
+   public DbSet<Permission> Permissions { get; set; }
+   public DbSet<RolePermission> RolePermissions { get; set; }
    public AppUserDbContext()
    {
 
@@ -23,8 +29,14 @@ public class AppUserDbContext : DbContext
 
    protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
-      modelBuilder.HasDefaultSchema("Users");
       base.OnModelCreating(modelBuilder);
+      modelBuilder.HasDefaultSchema("Users");
+      /*modelBuilder.Entity<RoleUser>().HasOne<User>(x =>x.Member).WithMany().HasForeignKey(x => x.MemberId);
+      modelBuilder.Entity<RoleUser>().HasOne<Role>(x =>x.Role).WithMany().HasForeignKey(x => x.RoleId);*/
+      modelBuilder.ApplyConfiguration(new RoleConfiguration());
+      modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+      modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
+    
    }
 }
    

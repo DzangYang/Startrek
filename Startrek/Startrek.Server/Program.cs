@@ -45,7 +45,11 @@ builder.Services.AddAuthentication(x =>
 });
 
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+   options.AddPolicy("AccessMember", policy => policy.RequireClaim("permissions", "AccessMember"));
+   options.AddPolicy("ReadMember", policy => policy.RequireClaim("permissions", "ReadMember"));
+});
 
 builder.Services.AddHttpContextAccessor();
 

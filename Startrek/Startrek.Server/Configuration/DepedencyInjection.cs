@@ -45,6 +45,7 @@ public static class DepedencyInjection
                 schema: "Users"
                 )));
 
+        
 
         return services;
     }
@@ -75,7 +76,9 @@ public static class DepedencyInjection
             .AddScoped<IAuthService, AuthService>()
             .AddScoped<IPasswordHasher, PasswordHasher>()
             .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
-            .AddScoped<IJwtAuthService, JwtAuthService>();
+            .AddScoped<IJwtAuthService, JwtAuthService>()
+            .AddScoped<IPermissionRepository, PermissionRepository>()
+            .AddScoped<IRoleRepository, RoleRepository>();
             
             
             

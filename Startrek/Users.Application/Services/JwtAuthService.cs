@@ -4,21 +4,28 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Users.Application.Abstractions;
+using Users.Domain.Entities;
 
 namespace Users.Application.Services;
 
 public class JwtAuthService(IConfiguration _configuration) : IJwtAuthService
 {
-   public string GenerateToken(Guid id, string email, string passwordHash)
+   public string GenerateToken(User user, ICollection<Role> rolesUser, ICollection<Permission> permissionUser)
    {
+      var roles = rolesUser.Select(r => r.Name).ToList();
+      var roleUser = string.Join(",", roles);
+      
+      var permissions = permissionUser.Select(p => p.Name).ToList();
+      var permissionsUser = string.Join(",", permissions); 
+      
       var claims = new List<Claim>
       {
          new Claim("iss","http://localhost:5111"),
          new Claim("aud","http://localhost:5111"),
-         new Claim(("userId"), id.ToString()),
-         new Claim(ClaimTypes.Email, email)
+         new Claim(("userId"), user.Id.ToString()),
+         new Claim("roles", roleUser),
+         new Claim("permissions", permissionsUser)
       };
-         
 
       var signingCredentials = new SigningCredentials(
          new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

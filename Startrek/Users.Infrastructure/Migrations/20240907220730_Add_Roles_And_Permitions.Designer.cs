@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Users.Infrastructure.Database;
@@ -11,9 +12,11 @@ using Users.Infrastructure.Database;
 namespace Users.Infrastructure.Migrations
 {
     [DbContext(typeof(AppUserDbContext))]
-    partial class AppUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240907220730_Add_Roles_And_Permitions")]
+    partial class Add_Roles_And_Permitions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,11 +81,6 @@ namespace Users.Infrastructure.Migrations
                         {
                             Id = 2,
                             Name = "Registered"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Manager"
                         });
                 });
 
@@ -115,11 +113,6 @@ namespace Users.Infrastructure.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 2
-                        },
-                        new
-                        {
-                            RoleId = 3,
-                            PermissionId = 1
                         });
                 });
 
@@ -159,21 +152,17 @@ namespace Users.Infrastructure.Migrations
 
             modelBuilder.Entity("Users.Domain.Entities.RolePermission", b =>
                 {
-                    b.HasOne("Users.Domain.Entities.Permission", "Permission")
+                    b.HasOne("Users.Domain.Entities.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Users.Domain.Entities.Role", "Role")
+                    b.HasOne("Users.Domain.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Users.Domain.Entities.RoleUser", b =>
