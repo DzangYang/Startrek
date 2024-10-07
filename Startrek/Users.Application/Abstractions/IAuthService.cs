@@ -1,6 +1,5 @@
 using Users.Application.DTO.Requests;
 using Users.Application.DTO.Responces;
-using Users.Domain;
 using Users.Domain.Entities;
 
 

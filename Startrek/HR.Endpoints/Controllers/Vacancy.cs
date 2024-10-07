@@ -1,6 +1,5 @@
 using HR.Application.Abstractions;
 using HR.Application.DTO.Requests;
-using HR.Application.DTO.Requests.Offers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR.Endpoints.Controllers;

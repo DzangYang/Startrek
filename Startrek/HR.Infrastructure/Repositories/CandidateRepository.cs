@@ -3,11 +3,7 @@ using HR.Domain.Entities;
 using HR.Domain.Repositories;
 using HR.Infrastructure.Database;
 using System.Linq.Expressions;
-using HR.Domain.Enums;
 using HR.Domain.Interfaces;
-using HR.Infrastructure.Migrations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HR.Infrastructure.Repositories;
 public sealed class CandidateRepository(IUnitOfWork unitOfWork, DbContextEF dbContext) : ICandidateRepository

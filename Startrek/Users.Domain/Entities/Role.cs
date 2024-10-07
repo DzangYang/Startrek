@@ -5,11 +5,10 @@ namespace Users.Domain.Entities;
 public class Role : Enumeration<Role>
 {
    public static readonly Role Administator = new (1, "Admininstrator");
-   public static readonly Role Registered = new (2, "Registered");
-   public static readonly Role Manager = new (3, "Manager");
- 
-   
-   
+   public static readonly Role HR_Officer = new (2, "HR_Officer");
+   public static readonly Role Manager = new(3, "Manager");
+   public static readonly Role HR_Manager = new(4, "HR_Manager");
+
    public Role(int id, string name) 
    : base(id, name)
    {

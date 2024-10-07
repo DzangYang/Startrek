@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Users.Domain.Entities;
 using Users.Domain.Repositories;
 using Users.Infrastructure.Database;
@@ -9,8 +8,9 @@ public class PermissionRepository(AppUserDbContext _context) : IPermissionReposi
 {
    public IEnumerable<Permission> GetPermissionsByRoleName(int roleId)
    {
-      var permissions =  _context.Permissions
-         .Where(r => r.Id == roleId).ToList();
+      var permissions =  _context.RolePermissions
+         .Where(r => r.RoleId == roleId).Select(x => x.Permission).ToList();
+      
       return permissions;
    }
 }  

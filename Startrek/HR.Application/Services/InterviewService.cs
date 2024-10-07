@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using HR.Application.Abstractions;
+﻿using HR.Application.Abstractions;
 using HR.Application.DTO.Requests.Interviews;
 using HR.Application.DTO.Responces.Interviews;
-using HR.Application.FluentValidationServices;
 using HR.Domain.Entities;
 using HR.Domain.Interfaces;
 using HR.Domain.Repositories;

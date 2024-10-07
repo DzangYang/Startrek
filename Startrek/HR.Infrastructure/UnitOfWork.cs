@@ -1,7 +1,6 @@
 using System.Data;
 using HR.Domain.Interfaces;
 using HR.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HR.Infrastructure;

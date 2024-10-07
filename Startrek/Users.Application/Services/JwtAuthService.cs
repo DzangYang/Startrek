@@ -10,13 +10,12 @@ namespace Users.Application.Services;
 
 public class JwtAuthService(IConfiguration _configuration) : IJwtAuthService
 {
-   public string GenerateToken(User user, ICollection<Role> rolesUser, ICollection<Permission> permissionUser)
+
+   public string GenerateToken(User user)
    {
-      var roles = rolesUser.Select(r => r.Name).ToList();
-      var roleUser = string.Join(",", roles);
+      var roleUser = string.Join(",", user.Roles.Select(r => r.Name));
       
-      var permissions = permissionUser.Select(p => p.Name).ToList();
-      var permissionsUser = string.Join(",", permissions); 
+      var permissionsUser = string.Join(",",  user.Roles.SelectMany(r => r.Permissions).Select(p => p.Name).ToList()); 
       
       var claims = new List<Claim>
       {
@@ -31,8 +30,7 @@ public class JwtAuthService(IConfiguration _configuration) : IJwtAuthService
          new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration.GetSection("JwtTokenSettings:SecretKey").Value)),
          SecurityAlgorithms.HmacSha256);
-
-
+      
       var token = new JwtSecurityToken(
          signingCredentials: signingCredentials,
          claims: claims,

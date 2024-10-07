@@ -1,6 +1,5 @@
 using HR.Application.Abstractions;
 using HR.Application.DTO.Requests.Interviews;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR.Endpoints.Controllers;

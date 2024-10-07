@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using Users.Domain.Enums;
+using Shared.Core;
 
-namespace Users.Application;
+namespace Users.Application.Auth;
 
 public sealed class HasPermission : AuthorizeAttribute
 {

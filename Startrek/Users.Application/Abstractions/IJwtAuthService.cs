@@ -4,5 +4,5 @@ namespace Users.Application.Abstractions;
 
 public interface IJwtAuthService
 {
-   public string GenerateToken(User user, ICollection<Role> rolesUser, ICollection<Permission> permissionUser);
+   public string GenerateToken(User user);
 }

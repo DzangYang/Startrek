@@ -1,15 +1,13 @@
-﻿using System.Net;
-using HR.Application.Abstractions;
+﻿using HR.Application.Abstractions;
 using HR.Application.Services;
 using HR.Domain.Interfaces;
 using HR.Domain.Repositories;
 using HR.Infrastructure;
 using HR.Infrastructure.Database;
 using HR.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Startrek.Server.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -17,6 +15,7 @@ using Users.Application.Abstractions;
 using Users.Application.Services;
 using Users.Domain.Repositories;
 using Users.Infrastructure;
+using Users.Infrastructure.Auth.Requirements;
 using Users.Infrastructure.Database;
 using Users.Infrastructure.Repositories;
 
@@ -78,7 +77,10 @@ public static class DepedencyInjection
             .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
             .AddScoped<IJwtAuthService, JwtAuthService>()
             .AddScoped<IPermissionRepository, PermissionRepository>()
-            .AddScoped<IRoleRepository, RoleRepository>();
+            .AddScoped<IRoleRepository, RoleRepository>()
+            .AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProviderService>()
+            .AddSingleton<IAuthorizationHandler, CheckTheTimeAvailableForAddingRequirementHandler>()
+            .AddSingleton<IAuthorizationHandler, GetAllCandidatesRequirementHandler>();
             
             
             

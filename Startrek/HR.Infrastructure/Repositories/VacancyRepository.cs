@@ -1,7 +1,6 @@
 using HR.Domain.Entities;
 using HR.Domain.Repositories;
 using HR.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace HR.Infrastructure.Repositories;
 

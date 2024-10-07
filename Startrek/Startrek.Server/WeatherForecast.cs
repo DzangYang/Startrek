@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-
 namespace Startrek.Server;
 
 public class WeatherForecast

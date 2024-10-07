@@ -1,6 +1,5 @@
 ﻿using HR.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace HR.Infrastructure.Database;
 public class DbContextEF : DbContext

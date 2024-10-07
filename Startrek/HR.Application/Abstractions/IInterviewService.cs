@@ -1,11 +1,5 @@
 ﻿using HR.Application.DTO.Requests.Interviews;
 using HR.Application.DTO.Responces.Interviews;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HR.Domain.Entities;
 
 namespace HR.Application.Abstractions;
 public interface IInterviewService

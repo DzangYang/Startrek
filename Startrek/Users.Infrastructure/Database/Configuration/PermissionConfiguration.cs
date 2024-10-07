@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Domain.Entities;
-using Users.Domain.Primitives;
 
 namespace Users.Infrastructure.Auth;
 
@@ -15,7 +14,7 @@ public  sealed class PermissionConfiguration : IEntityTypeConfiguration<Users.Do
 
       builder.HasIndex(x => x.Id).IsUnique();
 
-      IEnumerable<Permission> permissions = Enum.GetValues<Users.Domain.Enums.Permission>()
+      IEnumerable<Permission> permissions = Enum.GetValues<Shared.Core.Permission>()
          .Select(p => new Permission
          {
             Id = (int)p,

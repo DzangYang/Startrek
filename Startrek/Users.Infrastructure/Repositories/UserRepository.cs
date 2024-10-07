@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Users.Domain;
 using Users.Domain.Entities;
 using Users.Domain.Repositories;
 using Users.Infrastructure.Database;
@@ -19,35 +18,27 @@ public class UserRepository(AppUserDbContext _context) : IUserRepository
      
    }
    
-   public ICollection<Permission> GetPermissionsUser(User user)
+   public ICollection<Permission>? GetPermissionsUser(User user)
    {
-      var permissions =  new List<Permission>();
-      foreach (var role in user.Roles)
-      {
-         foreach (var permission in role.Permissions)
-         {
-            permissions.Add(permission);
-         }
-      }
-      return permissions;
+      var permissions = user.Roles.SelectMany(ar => ar.Permissions);
+   
+      return permissions.ToArray();
    }
-   public ICollection<Role> GetRolesUser(User user)
+   public ICollection<Role>? GetRolesUser(User user)
    {
       var rolesUser = user.Roles.ToList();
       return rolesUser;
    }
 
-   public User GetByEmail(string email)
+   public User? GetByEmail(string email)
    {
-      var user = _context.Users.Include(r => r.Roles)
+      var existUser = _context.Users.
+         Include(r => r.Roles)
          .ThenInclude(x => x.Permissions)
          .FirstOrDefault(u => u.Email == email);
-
       
-      return user;
+      return existUser;
    }
-
-
 
    public IEnumerable<User> GetAll()
    {

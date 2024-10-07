@@ -1,18 +1,7 @@
 using System.Text;
-using HR.Application.Abstractions;
-using HR.Application.Services;
-using HR.Domain.Interfaces;
-using HR.Domain.Repositories;
-using HR.Infrastructure;
-using HR.Infrastructure.Database;
-using HR.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Startrek.Server;
-using Startrek.Server.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,15 +14,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var config = builder.Configuration;
+
 builder.Services.AddAuthentication(x =>
 {
    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+   
    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+ 
 }).AddJwtBearer(x =>
 {
+   x.SaveToken = true;
    x.TokenValidationParameters = new TokenValidationParameters
    {
+      SaveSigninToken = true,
       ValidIssuer = config["JwtTokenSettings:Issuer"],
       ValidAudience = config["JwtTokenSettings:Audience"],
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtTokenSettings:SecretKey"])),
@@ -48,10 +42,13 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization(options =>
 {
    options.AddPolicy("AccessMember", policy => policy.RequireClaim("permissions", "AccessMember"));
+  
    options.AddPolicy("ReadMember", policy => policy.RequireClaim("permissions", "ReadMember"));
+   options.AddPolicy("HR_GetAllCandidates", policy => policy.RequireClaim("permissions", "HR_GetAllCandidates"));
 });
 
 builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 

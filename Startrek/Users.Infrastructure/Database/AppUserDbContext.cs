@@ -1,10 +1,5 @@
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
-using Microsoft.EntityFrameworkCore.Design.Internal;
 using Startrek.Server.Auth;
-using Users.Domain;
 using Users.Domain.Entities;
 using Users.Infrastructure.Auth;
 
@@ -26,10 +21,11 @@ public class AppUserDbContext : DbContext
    {
 
    }
-
+   
    protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
       base.OnModelCreating(modelBuilder);
+    
       modelBuilder.HasDefaultSchema("Users");
       /*modelBuilder.Entity<RoleUser>().HasOne<User>(x =>x.Member).WithMany().HasForeignKey(x => x.MemberId);
       modelBuilder.Entity<RoleUser>().HasOne<Role>(x =>x.Role).WithMany().HasForeignKey(x => x.RoleId);*/
