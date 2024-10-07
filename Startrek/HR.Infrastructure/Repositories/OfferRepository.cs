@@ -1,7 +1,6 @@
 using HR.Domain.Entities;
 using HR.Domain.Repositories;
-using HR.Infrastructure.DataAccess;
-using HR.Infrastructure.Migrations;
+using HR.Infrastructure.Database;
 
 namespace HR.Infrastructure.Repositories;
 

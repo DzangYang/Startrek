@@ -10,9 +10,14 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Requests\" />
     <Folder Include="Responce\" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
+    <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
+    <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
   </ItemGroup>
 
 </Project>

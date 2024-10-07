@@ -1,6 +1,8 @@
 ﻿using HR.Application.Abstractions;
 using HR.Application.DTO.Requests.Candidates;
+using Shared.Core;
 using Microsoft.AspNetCore.Mvc;
+using Users.Application.Auth;
 
 namespace HR.Endpoints.Controllers;
 
@@ -9,6 +11,7 @@ namespace HR.Endpoints.Controllers;
 
 public class Candidate(ICandidateService candidateService) : ControllerBase
 {
+    [HasPermission(Permission.HR_AddCandidates)]
     [HttpPost("Create")]
     public IActionResult Create(CreateCandidateRequest candidateRequest)
     {
@@ -16,6 +19,7 @@ public class Candidate(ICandidateService candidateService) : ControllerBase
         return Ok(result);
     }
 
+ 
     [HttpGet("GetAll")]
     public IActionResult GetAll()
     {

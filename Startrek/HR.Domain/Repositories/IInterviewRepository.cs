@@ -1,5 +1,4 @@
 ﻿using HR.Domain.Entities;
-using System.Xml;
 
 namespace HR.Domain.Repositories;
 

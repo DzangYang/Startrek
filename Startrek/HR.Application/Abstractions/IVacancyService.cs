@@ -1,6 +1,5 @@
 using HR.Application.DTO.Requests;
 using HR.Application.DTO.Responces.Vacancies;
-using HR.Domain.Entities;
 
 namespace HR.Application.Abstractions;
 

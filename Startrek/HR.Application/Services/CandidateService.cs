@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
 using HR.Application.Abstractions;
-using HR.Application.DTO.Requests;
 using HR.Application.DTO.Requests.Candidates;
 using HR.Application.DTO.Responces.Candidates;
-using HR.Application.DTO.Responces.Vacancies;
 using HR.Application.FluentValidationServices;
 using HR.Domain;
 using HR.Domain.Entities;

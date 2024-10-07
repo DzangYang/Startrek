@@ -1,5 +1,4 @@
 using HR.Application.DTO.Requests.Offers;
-using HR.Domain.Entities;
 
 namespace HR.Application.Abstractions;
 

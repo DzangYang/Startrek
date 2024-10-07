@@ -3,7 +3,6 @@ using HR.Application.DTO.Requests.Offers;
 using HR.Domain.Entities;
 using HR.Domain.Interfaces;
 using HR.Domain.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace HR.Application.Services;
 
