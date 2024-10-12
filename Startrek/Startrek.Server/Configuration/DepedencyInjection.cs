@@ -80,7 +80,7 @@ public static class DepedencyInjection
             .AddScoped<IRoleRepository, RoleRepository>()
             .AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProviderService>()
             .AddSingleton<IAuthorizationHandler, CheckTheTimeAvailableForAddingRequirementHandler>()
-            .AddSingleton<IAuthorizationHandler, GetAllCandidatesRequirementHandler>();
+            .AddSingleton<IAuthorizationHandler, PermissionsAuthorizationRequirementHandler>();
             
             
             
