@@ -3,11 +3,10 @@ using HR.Application.DTO.Requests.Offers;
 using HR.Domain.Entities;
 using HR.Domain.Interfaces;
 using HR.Domain.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace HR.Application.Services;
 
-public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWork) : IOfferService
+public class OfferService(IUnitOfWork unitOfWork, IOfferRepository offerRepository) : IOfferService
 {
     public CreateOfferResponce Add(CreateOfferRequest request)
     {
@@ -22,22 +21,56 @@ public class OfferService(IOfferRepository offerRepository, IUnitOfWork unitOfWo
         unitOfWork.SaveChangeAsync();
         return new CreateOfferResponce(offer.Id);
     }
-
     public void Issuance(IssuanceOfferRequest request)
     {
-        offerRepository.Issuance(request.Id, request.DateOfIssue, request.ExpiryDate);
+        var existOffer = offerRepository.GetById(request.Id);
+
+        existOffer.DateOfIssue = request.DateOfIssue;
+        existOffer.ExpiryDate = request.ExpiryDate;
+        
+        offerRepository.Issuance(existOffer);
         unitOfWork.SaveChangeAsync();
+    }
+
+
+    public GetOffersResponce GetAll()
+    {
+        var offers = offerRepository.GetAll();
+        return new GetOffersResponce(offers);
     }
 
     public void Revoke(RevokeOfferRequest request)
     {
-        offerRepository.Revoke(request.Id, request.Comment);
+        var existOffer = offerRepository.GetById(request.Id);
+        offerRepository.Revoke(existOffer);
+        if (true)
+        {
+            Console.WriteLine();
+        }
+
+        if (true)
+        {
+            Console.WriteLine();
+        }
+
+        existOffer.IsActive = false;
+        existOffer.Comment = request.Comment;
         unitOfWork.SaveChangeAsync();
+    }
+
+    public GetByIdOfferResponce GetById(Guid id)
+    {
+        var offer = offerRepository.GetById(id);
+        return new GetByIdOfferResponce(offer);
     }
 
     public void Apply(ApplyOfferRequest request)
     {
-        offerRepository.Apply(request.Id);
+        var existOffer = offerRepository.GetById(request.Id);
+
+        existOffer.IsActive = true;
+        
+        offerRepository.Apply(existOffer);
         unitOfWork.SaveChangeAsync();
     }
 }

@@ -9,8 +9,8 @@ public class Vacancy
     /// </summary>
     public Guid Id { get; set; }
     public Guid PositionId { get; set; }
-    public int Experience { get; set; }
+    public int? Experience { get; set; }
     public DateTime CreatedDate { get; set; }
-    public IEnumerable<Candidate>? Candidates { get; set; }
+    public ICollection<Candidate>? Candidates { get; set; } = new List<Candidate>();
 
 }

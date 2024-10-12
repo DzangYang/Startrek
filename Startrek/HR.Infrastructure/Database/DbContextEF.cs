@@ -1,8 +1,7 @@
 ﻿using HR.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace HR.Infrastructure.DataAccess;
+namespace HR.Infrastructure.Database;
 public class DbContextEF : DbContext
 {
     public DbSet<Candidate> Candidates { get; set; }
@@ -25,6 +24,8 @@ public class DbContextEF : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
+        modelBuilder.HasDefaultSchema("HR");
         base.OnModelCreating(modelBuilder);
     }
 }
