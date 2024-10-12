@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Shared.Core;
 using Users.Infrastructure.Auth.Requirements;
+using Users.Infrastructure.Database;
+using Permission = Users.Domain.Entities.Permission;
 
 namespace Users.Infrastructure;
 
@@ -12,13 +15,14 @@ public class AuthorizationPolicyProviderService : IAuthorizationPolicyProvider
     
       var policyBuilder = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
       //policyBuilder.AddRequirements(new CheckTheTimeAvailableForAddingRequirement(DateTime.Now));
-      policyBuilder.AddRequirements(new GetAllCandidatesRequirement());
+      policyBuilder.AddRequirements(new PermissionsAuthorizationRequirement(policyName));
      
       
       // Создаем политику и возвращаем ее как Task
       var policy = policyBuilder.Build();
       return Task.FromResult<AuthorizationPolicy?>(policy);
    }
+   
 
    public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
    {

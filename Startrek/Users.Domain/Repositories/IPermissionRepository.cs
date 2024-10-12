@@ -5,4 +5,5 @@ namespace Users.Domain.Repositories;
 public interface IPermissionRepository
 {
    public IEnumerable<Permission> GetPermissionsByRoleName(int roleName);
+   
 }
